@@ -1,157 +1,77 @@
 <?php
 /*
-Plugin Name: WP SEO Image Optimiser
-Plugin URI: https://TOCOME
-Description: A plugin that sanetises your image title and copies it to the various other fields whichs is good for SEO purposes.
-Author: Rafaël De Jongh & Yogensia
-Author URI: https://www.rafaeldejongh.com
-Author URI: https://www.yogensia.com
-Version: 1.0
+	Plugin Name: WP SEO Image Optimiser
+	Plugin URI: https://TOCOME
+	Description: A plugin that sanitizes image titles and copies them to other metadata fields to improve SEO.
+	Author: Rafaël De Jongh & Yogensia
+	Author URI: https://www.rafaeldejongh.com
+	Author URI: https://www.yogensia.com
+	Donate link: https:/TOCOME
+	Requires at least: 4.7
+	Tested up to: 4.9
+	Stable tag: 1.0
+	Version: 1.0
+	Requires PHP: 5.2
+	Text Domain: wp-seo-img-optim
+	Domain Path: /languages
+	License: GPL v3 or later
+	Tags: images, seo
 */
 
-function image_meta_upload( $post_ID ) {
-	if ( wp_attachment_is_image( $post_ID ) ) {
-		$image_title = get_post( $post_ID ) -> post_title;
-		$image_title = preg_replace( '%\s*[-_\s]+\s*%', ' ', $image_title );
-		$image_title = ucwords( strtolower( $image_title ) );
+/*
+  WP SEO Image Optimiser - Improve the SEO of your images.
+  Copyright (C) 2018 Rafaël De Jongh & Yogensia
 
-		$image_meta = array(
-			'ID'             => $post_ID,
-			'post_title'     => $image_title,
-			//'post_excerpt'   => $image_title,
-			//'post_content'   => $image_title
-		);
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
 
-		update_post_meta( $post_ID, '_wp_attachment_image_alt', $image_title );
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-		wp_update_post( $image_meta );
-	}
-}
-add_action( 'add_attachment', 'image_meta_upload' );
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see http://www.gnu.org/licenses/.
+*/
 
-// Loop Through Current Media Library
-$currentMediaLibrary = new WP_Query( array(
-	'post_type'      => 'attachment',
-	'post_mime_type' => 'image',
-	'post_status'    => 'inherit',
-	'posts_per_page' => -1
-));
+if (!defined('ABSPATH')) die();
 
-foreach( $currentMediaLibrary -> posts as $image ) {
-	// Check if alt tag exists - if not copy it over from the title and sanitize both title and alt.
-	$images[] = $image -> post_title;
-	if( $matches  = preg_grep ( '%\s*[-_\s]+\s*%', $images ) ) {
+if (!class_exists('WPImgSEO')) {
 
-	}
-}
-//var_dump($matches);
+	class WPImgSEO {
 
+		function __construct() {
 
-// Settings page
-function seoio_settings_api_init() {
-	// Add the section to media settings page
-	add_settings_section(
-		'seoio_image_meta',
-		'SEO Image Optimizer',
-		'seoio_settings_callback',
-		'media'
-	);
+			$this->constants();
+			$this->includes();
 
-	// Add the fields to the new section
-	add_settings_field(
-		'seoio_title_to_alt',
-		'Alternative text',
-		'seoio_title_to_alt_callback',
-		'media',
-		'seoio_image_meta'
-	);
+		}
 
-	add_settings_field(
-		'seoio_title_to_desc',
-		'Description',
-		'seoio_title_to_desc_callback',
-		'media',
-		'seoio_image_meta'
-	);
+		function constants() {
 
-	add_settings_field(
-		'seoio_title_to_caption',
-		'Caption',
-		'seoio_title_to_caption_callback',
-		'media',
-		'seoio_image_meta'
-	);
+			if (!defined('SEOIO_VERSION')) define('SEOIO_VERSION', '1.0');
+			if (!defined('SEOIO_URL'))     define('SEOIO_URL',     plugin_dir_url(__FILE__));
+			if (!defined('SEOIO_DIR'))     define('SEOIO_DIR',     plugin_dir_path(__FILE__));
+			if (!defined('SEOIO_FILE'))    define('SEOIO_FILE',    plugin_basename(__FILE__));
+			if (!defined('SEOIO_SLUG'))    define('SEOIO_SLUG',    basename(dirname(__FILE__)));
 
-	add_settings_field(
-		'seoio_overwrite_data',
-		'Overwrite Fields',
-		'seoio_overwrite_data_callback',
-		'media',
-		'seoio_image_meta'
-	);
+		}
 
-	register_setting( 'media', 'seoio_title_to_alt' );
-	register_setting( 'media', 'seoio_title_to_desc' );
-	register_setting( 'media', 'seoio_title_to_caption' );
-	register_setting( 'media', 'seoio_overwrite_data' );
-}
-add_action( 'admin_init', 'seoio_settings_api_init', 1 );
+		function includes() {
 
+			if (is_admin()) {
 
-// Callback functions
-function seoio_settings_callback() {
-	echo '<p>Choose how to auto-populate the alt, description and caption fields of new image uploads.</p>';
-}
+				require_once SEOIO_DIR .'inc/register-settings.php';
+				require_once SEOIO_DIR .'inc/main.php';
 
-function seoio_title_to_alt_callback() {
-	echo '<input name="seoio_title_to_alt" type="checkbox" id="seoio_title_to_alt" value="1"';
+			}
 
-	$seoio_title_to_alt = get_option( 'seoio_title_to_alt' );
+		}
 
-	if ( $seoio_title_to_alt == 1 ) {
-		echo ' checked';
 	}
 
-	echo '/>';
-	echo '<label for="seoio_title_to_alt">Copy title to alternative text</label>';
-}
+	$WPImgSEO = new WPImgSEO();
 
-function seoio_title_to_desc_callback() {
-	echo '<input name="seoio_title_to_desc" type="checkbox" id="seoio_title_to_desc" value="1"';
-
-	$seoio_title_to_desc = get_option( 'seoio_title_to_desc' );
-
-	if ( $seoio_title_to_desc == 1 ) {
-		echo ' checked';
-	}
-
-	echo '/>';
-	echo '<label for="seoio_title_to_desc">Copy title to description</label>';
-}
-
-function seoio_title_to_caption_callback() {
-	echo '<input name="seoio_title_to_caption" type="checkbox" id="seoio_title_to_caption" value="1"';
-
-	$seoio_title_to_caption = get_option( 'seoio_title_to_caption' );
-
-	if ( $seoio_title_to_caption == 1 ) {
-		echo ' checked';
-	}
-
-	echo '/>';
-	echo '<label for="seoio_title_to_caption">Copy title to caption</label>';
-}
-
-function seoio_overwrite_data_callback() {
-	echo '<input name="seoio_overwrite_data" type="checkbox" id="seoio_overwrite_data" value="1"';
-
-	$seoio_overwrite_data = get_option( 'seoio_overwrite_data' );
-
-	if ( $seoio_overwrite_data == 1 ) {
-		echo ' checked';
-	}
-
-	echo '/>';
-	echo '<label for="seoio_overwrite_data">Allow to overwrite fields when auto-populating alt text, caption or descriptions of existing images.<br />';
-	echo '<span style="color:#a00;"><strong>Important:</strong> Enabling this may cause irreversible loss of data. Make a backup first!</span></label>';
 }
