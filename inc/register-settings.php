@@ -17,11 +17,21 @@
   along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-if (!defined('ABSPATH')) exit;
 
-// Settings page
+
+/**
+ * Do not open this file directly.
+ */
+if ( ! defined('ABSPATH') ) exit;
+
+
+
+/**
+ * Settings in Media section of admin panel.
+ */
 function seoio_settings_api_init() {
-	// Add the section to media settings page
+	// Add the section to media settings page.
+	// (id, title, callback, page)
 	add_settings_section(
 		'seoio_image_meta',
 		'SEO Image Optimizer',
@@ -29,7 +39,8 @@ function seoio_settings_api_init() {
 		'media'
 	);
 
-	// Add the fields to the new section
+	// Add the fields to the new section.
+	// (id, title, callback, page, section, args)
 	add_settings_field(
 		'seoio_title_to_alt',
 		'Alternative text',
@@ -69,7 +80,7 @@ function seoio_settings_api_init() {
 }
 add_action( 'admin_init', 'seoio_settings_api_init', 1 );
 
-// Callback functions
+// Callback functions.
 function seoio_settings_callback() {
 	echo '<p>Choose how to auto-populate the alt, description and caption fields of new image uploads.</p>';
 }
