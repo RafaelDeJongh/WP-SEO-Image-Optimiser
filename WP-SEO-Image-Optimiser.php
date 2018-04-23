@@ -36,9 +36,18 @@
   along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-// Do not open this file directly.
+
+
+/**
+ * Do not open this file directly.
+ */
 if ( ! defined('ABSPATH') ) die();
 
+
+
+/**
+ * Main Class.
+ */
 if ( ! class_exists('WPImgSEO') ) {
 	class WPImgSEO {
 		function __construct() {
@@ -57,6 +66,7 @@ if ( ! class_exists('WPImgSEO') ) {
 		function includes() {
 			if (is_admin()) {
 				require_once SEOIO_DIR .'inc/register-settings.php';
+				require_once SEOIO_DIR .'inc/dashboard-widget.php';
 				require_once SEOIO_DIR .'inc/main.php';
 			}
 		}
