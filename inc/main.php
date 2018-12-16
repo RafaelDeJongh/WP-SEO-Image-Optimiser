@@ -1,6 +1,6 @@
 <?php
 /*
-	WP SEO Image Optimiser - Improve the SEO of your images.
+	WP SEO Image Optimizer - Improve the SEO of your images.
 	Copyright (C) 2018 Rafaël De Jongh & Yogensia
 
 	This program is free software: you can redistribute it and/or modify
@@ -79,7 +79,7 @@ function seoio_query_missing_alt() {
 }
 
 /* List images with missing alt-text. */
-function seoio_list_exixting_images() {
+function seoio_list_existing_images() {
 	$missing_alt_imgs = seoio_query_missing_alt();
 
 	foreach( $missing_alt_imgs->posts as $image ) {
@@ -110,8 +110,8 @@ function seoio_register_pages() {
 		'WP Img SEO Optimizer',
 		'WPSEOIO: List Images',
 		'manage_options',
-		'seoio-list-exixting-images',
-		'seoio_list_exixting_images'
+		'seoio-list-existing-images',
+		'seoio_list_existing_images'
 	);
 
 }

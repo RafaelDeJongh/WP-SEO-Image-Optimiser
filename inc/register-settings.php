@@ -1,6 +1,6 @@
 <?php
 /*
-	WP SEO Image Optimiser - Improve the SEO of your images.
+	WP SEO Image Optimizer - Improve the SEO of your images.
 	Copyright (C) 2018 Rafaël De Jongh & Yogensia
 
 	This program is free software: you can redistribute it and/or modify

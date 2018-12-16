@@ -1,6 +1,6 @@
 <?php
 /*
-	Plugin Name: WP SEO Image Optimiser
+	Plugin Name: WP SEO Image Optimizer
 	Plugin URI: https://TOCOME
 	Description: A plugin that sanitizes image titles and copies them to other metadata fields to improve SEO.
 	Author: Rafaël De Jongh & Yogensia
@@ -19,19 +19,19 @@
 */
 
 /*
-	WP SEO Image Optimiser - Improve the SEO of your images.
+	WP SEO Image Optimizer - Improve the SEO of your images.
 	Copyright (C) 2018 Rafaël De Jongh & Yogensia
-	
+
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see http://www.gnu.org/licenses/.
 */

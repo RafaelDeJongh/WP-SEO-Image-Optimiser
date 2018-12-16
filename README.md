@@ -1,4 +1,4 @@
-# WP-SEO-Image-Optimiser
+# WP-SEO-Image-Optimizer
 A plugin that sanitizes image titles and copies them to other fields to improve SEO.
 
 ## About
@@ -9,7 +9,7 @@ With this plugin the title will be cleaned automatically to `My Awesome Image`.
 
 You can configure the plugin to copy the title to the ALT text, Description and Caption fields if you so desire.
 
-You can also process existing images in your site to make sure there are no empty ALT or Description fields that could be useful for Search Engine Optimisation (SEO)
+You can also process existing images in your site to make sure there are no empty ALT or Description fields that could be useful for Search Engine Optimization (SEO)
 
 ## Requirements
 
