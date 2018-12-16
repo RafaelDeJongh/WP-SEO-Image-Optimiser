@@ -35,7 +35,7 @@ function seoio_settings_api_init() {
 	// (id, title, callback, page, section, args)
 	add_settings_field(
 		'seoio_clean_image_titles',
-		'Clean image titles on upload',
+		'Clean Image Titles on Upload',
 		'seoio_clean_image_titles_callback',
 		'media',
 		'seoio_image_meta'
@@ -43,7 +43,7 @@ function seoio_settings_api_init() {
 
 	add_settings_field(
 		'seoio_capitalize_image_titles',
-		'Capitalize image titles on upload',
+		'Capitalize Image Titles on Upload',
 		'seoio_capitalize_image_titles_callback',
 		'media',
 		'seoio_image_meta'
@@ -51,7 +51,7 @@ function seoio_settings_api_init() {
 
 	add_settings_field(
 		'seoio_title_to_alt',
-		'Alternative text',
+		'Copy Title to Alternative Text',
 		'seoio_title_to_alt_callback',
 		'media',
 		'seoio_image_meta'
@@ -59,7 +59,7 @@ function seoio_settings_api_init() {
 
 	add_settings_field(
 		'seoio_title_to_desc',
-		'Description',
+		'Copy Title to Description',
 		'seoio_title_to_desc_callback',
 		'media',
 		'seoio_image_meta'
@@ -67,7 +67,7 @@ function seoio_settings_api_init() {
 
 	add_settings_field(
 		'seoio_title_to_caption',
-		'Caption',
+		'Copy Title to Caption',
 		'seoio_title_to_caption_callback',
 		'media',
 		'seoio_image_meta'
@@ -92,7 +92,7 @@ add_action( 'admin_init', 'seoio_settings_api_init', 1 );
 
 // Callback functions.
 function seoio_settings_callback() {
-	echo '<p>Choose how to auto-populate the alt, description and caption fields of new image uploads.</p>';
+	echo '<p>Choose your image title clean up options and if you want to copy the title to the alt, description and caption fields of new image uploads.</p>';
 }
 
 function seoio_clean_image_titles_callback() {

@@ -20,14 +20,13 @@
 /* Do not open this file directly. */
 if ( ! defined('ABSPATH') ) exit;
 
-/**
- * Add dashboard widget with summary about images that need attention.
- */
+/* Add dashboard widget with summary about images that need attention. */
 function seoio_setup_dashboard_widget() {
 	global $wp_meta_boxes;
 	wp_add_dashboard_widget( 'seoio_widget', 'WP SEO Image Optimizer', 'seoio_dashboard_widget' );
 }
 add_action( 'wp_dashboard_setup', 'seoio_setup_dashboard_widget' );
+
 function seoio_dashboard_widget() {
 	$missing_alt_imgs = seoio_query_missing_alt();
 	$count = $missing_alt_imgs->post_count;

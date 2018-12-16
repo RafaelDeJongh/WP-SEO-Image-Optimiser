@@ -60,8 +60,6 @@ function image_fix_metadata( $post_ID ) {
 }
 add_action( 'add_attachment', 'image_fix_metadata' );
 
-
-
 /* Query images with missing or empty alt-text. */
 function seoio_query_missing_alt() {
 	$query = new WP_Query( array(
@@ -88,38 +86,153 @@ function seoio_query_missing_alt() {
 function seoio_list_existing_images() {
 	$missing_alt_imgs = seoio_query_missing_alt();
 
-	foreach( $missing_alt_imgs->posts as $image ) {
-		$edit_link = get_edit_post_link( $image->ID );
+	?>
+	<div class="wrap">
 
-		echo '<p>';
-		echo '<a href="' . $edit_link . '">' .
-		wp_get_attachment_image( $image->ID, 'thumbnail' ) . '</a>';
-		echo '</p>';
+		<h1><?php esc_attr_e( 'Image SEO Optimizer: Images with missing Alt-Text data', 'WPSEOIO' ); ?></h1>
 
-		echo '<h3>' . $image->post_title .
-		' <small><a href="' . $edit_link . '">Edit</a>' .
-		'</small></h3>';
+		<div id="poststuff">
+			<div id="post-body" class="metabox-holder">
+				<style>
+				#post-body-content {
+					margin-bottom: 0;
+				}
+				.inside {
+					display: flex;
+					align-items: flex-start;
+					margin: 0 0 1rem 0;
+				}
+				.inside p {
+					margin: 0;
+				}
+				.inside img {
+					width: 62px;
+					height: auto;
+					margin: 0 1rem 0 0;
+				}
+				.inside div {
+					flex: 1;
+				}
+				</style>
+				<?php
+				foreach( $missing_alt_imgs->posts as $image ) {
+					$edit_link = get_edit_post_link( $image->ID );
+					?>
+					<div id="post-body-content">
+						<div class="meta-box-sortables ui-sortable">
+							<div class="postbox">
+								<h2><span><?php echo $image->post_title . '<small> <a href="' . $edit_link . '">Edit</a></small>'; ?></span></h2>
+								<div class="inside">
+									<?php
+										echo '<p>';
+										echo '<a href="' . $edit_link . '" title="Edit &quot;' . $image->post_title . '&quot;">' .
+										wp_get_attachment_image( $image->ID, 'thumbnail' ) . '</a>';
+										echo '</p>';
 
-		echo '<p>';
-		echo "<strong>Content:</strong> $image->post_content<br />";
-		echo "<strong>Alt-Text:</strong> MISSING!<br />";
-		echo "<strong>Caption:</strong> $caption";
-		echo '</p>';
+										echo '<p>';
+										echo "<strong>Alt-Text:</strong> MISSING!<br />";
+										echo "<strong>Content:</strong> $image->post_content<br />";
+										echo "<strong>Caption:</strong> $caption";
+										echo '</p>';
+									?>
+								</div><!-- .inside -->
+							</div><!-- .postbox -->
+						</div><!-- .meta-box-sortables .ui-sortable -->
+					</div><!-- post-body-content -->
+				<?php } ?>
+			</div><!-- #post-body .metabox-holder -->
 
-		echo '<hr>';
-	}
+			<br class="clear">
+
+		</div>
+	</div> <!-- .wrap -->
+	<?php
+}
+
+/* Update images with missing alt-text. */
+function seoio_update_existing_images() {
+	$missing_alt_imgs = seoio_query_missing_alt();
+
+	?>
+	<div class="wrap">
+
+		<h1><?php esc_attr_e( 'Image SEO Optimizer: Images with missing Alt-Text data', 'WPSEOIO' ); ?></h1>
+
+		<div id="poststuff">
+			<div id="post-body" class="metabox-holder">
+				<style>
+				#post-body-content {
+					margin-bottom: 0;
+				}
+				.inside {
+					display: flex;
+					align-items: flex-start;
+					margin: 0 0 1rem 0;
+				}
+				.inside p {
+					margin: 0;
+				}
+				.inside img {
+					width: 62px;
+					height: auto;
+					margin: 0 1rem 0 0;
+				}
+				.inside div {
+					flex: 1;
+				}
+				</style>
+				<?php
+				foreach( $missing_alt_imgs->posts as $image ) {
+					$edit_link = get_edit_post_link( $image->ID );
+					?>
+					<div id="post-body-content">
+						<div class="meta-box-sortables ui-sortable">
+							<div class="postbox">
+								<h2><span><?php echo $image->post_title . '<small> <a href="' . $edit_link . '">Edit</a></small>'; ?></span></h2>
+								<div class="inside">
+									<?php
+										echo '<p>';
+										echo '<a href="' . $edit_link . '" title="Edit &quot;' . $image->post_title . '&quot;">' .
+										wp_get_attachment_image( $image->ID, 'thumbnail' ) . '</a>';
+										echo '</p>';
+
+										echo '<p>';
+										echo "<strong>Alt-Text:</strong> TEST!<br />";
+										echo "<strong>Content:</strong> $image->post_content<br />";
+										echo "<strong>Caption:</strong> $caption";
+										echo '</p>';
+									?>
+								</div><!-- .inside -->
+							</div><!-- .postbox -->
+						</div><!-- .meta-box-sortables .ui-sortable -->
+					</div><!-- post-body-content -->
+				<?php } ?>
+			</div><!-- #post-body .metabox-holder -->
+
+			<br class="clear">
+
+		</div>
+	</div> <!-- .wrap -->
+	<?php
 }
 
 function seoio_register_pages() {
 	add_submenu_page(
 		'tools.php',
 		'WP Img SEO Optimizer',
-		'WPSEOIO: List Images',
+		'SEOIO: Review Images',
 		'manage_options',
 		'seoio-list-existing-images',
 		'seoio_list_existing_images'
 	);
-
+	add_submenu_page(
+		'tools.php',
+		'WP Img SEO Optimizer',
+		'SEOIO: Update Images',
+		'manage_options',
+		'seoio-update-existing-images',
+		'seoio_update_existing_images'
+	);
 }
 add_action( 'admin_menu', 'seoio_register_pages' );
 
