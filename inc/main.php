@@ -25,8 +25,14 @@ function image_fix_metadata( $post_ID ) {
 	if ( wp_attachment_is_image( $post_ID ) ) {
 		// Format title.
 		$image_title = get_post( $post_ID )->post_title;
-		$image_title = preg_replace( '%\s*[-_\s]+\s*%', ' ', $image_title );
-		$image_title = ucwords( strtolower( $image_title ) );
+
+		if ( get_option('seoio_clean_image_titles') ) {
+			$image_title = preg_replace( '%\s*[-_\s]+\s*%', ' ', $image_title );
+		}
+
+		if ( get_option('seoio_capitalize_image_titles') ) {
+			$image_title = ucwords( strtolower( $image_title ) );
+		}
 
 		$image_meta = array(
 			'ID'             => $post_ID,

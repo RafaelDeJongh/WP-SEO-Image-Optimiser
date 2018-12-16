@@ -34,6 +34,22 @@ function seoio_settings_api_init() {
 	// Add the fields to the new section.
 	// (id, title, callback, page, section, args)
 	add_settings_field(
+		'seoio_clean_image_titles',
+		'Clean image titles on upload',
+		'seoio_clean_image_titles_callback',
+		'media',
+		'seoio_image_meta'
+	);
+
+	add_settings_field(
+		'seoio_capitalize_image_titles',
+		'Capitalize image titles on upload',
+		'seoio_capitalize_image_titles_callback',
+		'media',
+		'seoio_image_meta'
+	);
+
+	add_settings_field(
 		'seoio_title_to_alt',
 		'Alternative text',
 		'seoio_title_to_alt_callback',
@@ -65,6 +81,8 @@ function seoio_settings_api_init() {
 		'seoio_image_meta'
 	);
 
+	register_setting( 'media', 'seoio_clean_image_titles' );
+	register_setting( 'media', 'seoio_capitalize_image_titles' );
 	register_setting( 'media', 'seoio_title_to_alt' );
 	register_setting( 'media', 'seoio_title_to_desc' );
 	register_setting( 'media', 'seoio_title_to_caption' );
@@ -75,6 +93,32 @@ add_action( 'admin_init', 'seoio_settings_api_init', 1 );
 // Callback functions.
 function seoio_settings_callback() {
 	echo '<p>Choose how to auto-populate the alt, description and caption fields of new image uploads.</p>';
+}
+
+function seoio_clean_image_titles_callback() {
+	echo '<input name="seoio_clean_image_titles" type="checkbox" id="seoio_clean_image_titles" value="1"';
+
+	$seoio_clean_image_titles = get_option( 'seoio_clean_image_titles' );
+
+	if ( $seoio_clean_image_titles == 1 ) {
+		echo ' checked';
+	}
+
+	echo '/>';
+	echo '<label for="seoio_clean_image_titles">Replace dashes and underscores with spaces</label>';
+}
+
+function seoio_capitalize_image_titles_callback() {
+	echo '<input name="seoio_capitalize_image_titles" type="checkbox" id="seoio_capitalize_image_titles" value="1"';
+
+	$seoio_capitalize_image_titles = get_option( 'seoio_capitalize_image_titles' );
+
+	if ( $seoio_capitalize_image_titles == 1 ) {
+		echo ' checked';
+	}
+
+	echo '/>';
+	echo '<label for="seoio_capitalize_image_titles">Capitalize every word in the title of images</label>';
 }
 
 function seoio_title_to_alt_callback() {
