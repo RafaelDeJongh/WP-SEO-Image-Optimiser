@@ -1,34 +1,26 @@
 <?php
 /*
-  WP SEO Image Optimiser - Improve the SEO of your images.
-  Copyright (C) 2018 Rafaël De Jongh & Yogensia
+	WP SEO Image Optimiser - Improve the SEO of your images.
+	Copyright (C) 2018 Rafaël De Jongh & Yogensia
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see http://www.gnu.org/licenses/.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
+/* Do not open this file directly. */
+if(!defined('ABSPATH'))die();
 
-
-/**
- * Do not open this file directly.
- */
-if ( ! defined('ABSPATH') ) die();
-
-
-
-/**
- * Fix metadata on image upload.
- */
+/* Fix metadata on image upload. */
 function image_fix_metadata( $post_ID ) {
 	if ( wp_attachment_is_image( $post_ID ) ) {
 		// Format title.
@@ -64,9 +56,7 @@ add_action( 'add_attachment', 'image_fix_metadata' );
 
 
 
-/**
- * Query images with missing or empty alt-text.
- */
+/* Query images with missing or empty alt-text. */
 function seoio_query_missing_alt() {
 	$query = new WP_Query( array(
 		'post_type'      => 'attachment',
@@ -85,15 +75,10 @@ function seoio_query_missing_alt() {
 			),
 		),
 	));
-
 	return $query;
 }
 
-
-
-/**
- * List images with missing alt-text.
- */
+/* List images with missing alt-text. */
 function seoio_list_exixting_images() {
 	$missing_alt_imgs = seoio_query_missing_alt();
 
@@ -120,7 +105,6 @@ function seoio_list_exixting_images() {
 }
 
 function seoio_register_pages() {
-
 	add_submenu_page(
 		'tools.php',
 		'WP Img SEO Optimizer',
@@ -133,11 +117,7 @@ function seoio_register_pages() {
 }
 add_action( 'admin_menu', 'seoio_register_pages' );
 
-
-
-/**
- * Add Alt-text to the media library table.
- */
+/* Add Alt-text to the media library table. */
 
 // Add the column.
 function filename_column( $cols ) {
